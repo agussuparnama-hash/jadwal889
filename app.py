@@ -50,7 +50,7 @@ if not hasil.empty:
     hasil = hasil.sort_values('Hari')
     
     # Menampilkan tabel di layar
-    st.table(hasil[['Hari', 'Jam Ke', 'Waktu', 'Rombel"]])
+    st.table(hasil[['Hari', 'Jam Ke', 'Waktu', 'Rombel']])
     
     # --- 5. Tombol Download JPG ---
     img_buffer = df_to_image(hasil[['Hari', 'Jam', 'Kelas']])
