@@ -23,7 +23,7 @@ list_kode = sorted(df_filter_mapel['Mapel'].unique())
 pilihan_kode = st.sidebar.selectbox("Pilih Kode:", list_kode)
 
 # Filter Data Utama
-hasil = df[(df['Mapel'] == pilihan_mapel) & (df['Kode_Mapel'] == pilihan_kode)]
+hasil = df[(df['Mapel'] == pilihan_mapel) & (df['Mapel'] == pilihan_kode)]
 
 # Menampilkan Jadwal berdasarkan hari
 st.subheader(f"Jadwal untuk {pilihan_mapel} ({pilihan_kode})")
