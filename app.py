@@ -53,7 +53,7 @@ if not hasil.empty:
     st.table(hasil[['Hari', 'Jam Ke', 'Waktu', 'Rombel']])
     
     # --- 5. Tombol Download JPG ---
-    img_buffer = df_to_image(hasil[[''Hari', 'Jam Ke', 'Waktu', 'Rombel']])
+    img_buffer = df_to_image(hasil[['Hari', 'Jam Ke', 'Waktu', 'Rombel']])
     st.download_button(
         label="Download Jadwal sebagai JPG",
         data=img_buffer,
