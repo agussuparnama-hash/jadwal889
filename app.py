@@ -34,6 +34,6 @@ if not hasil.empty:
     hasil['Hari'] = pd.Categorical(hasil['Hari'], categories=urutan_hari, ordered=True)
     hasil = hasil.sort_values('Hari')
     
-    st.table(hasil[['Hari', 'Jam', 'Kelas']])
+    st.table(hasil[['Hari', 'Jam Ke', 'Waktu', 'Rombel']])
 else:
     st.info("Tidak ada jadwal untuk kombinasi tersebut.")
