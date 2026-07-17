@@ -4,7 +4,7 @@ import pandas as pd
 st.title("Aplikasi Jadwal Guru")
 
 # Pastikan nama file sesuai dengan yang Anda unggah
-file_name = 'Jadwal_Guru_2.xlsx' 
+file_name = 'Jadwal_Guru.xlsx' 
 
 try:
     # Membaca file excel
