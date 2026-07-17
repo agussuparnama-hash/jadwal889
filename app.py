@@ -19,7 +19,7 @@ pilihan_mapel = st.sidebar.selectbox("Pilih Mata Pelajaran:", list_mapel)
 
 # Dropdown untuk Kode berdasarkan Mapel yang dipilih
 df_filter_mapel = df[df['Mapel'] == pilihan_mapel]
-list_kode = sorted(df_filter_mapel['Kode_Mapel'].unique())
+list_kode = sorted(df_filter_mapel['Mapel'].unique())
 pilihan_kode = st.sidebar.selectbox("Pilih Kode:", list_kode)
 
 # Filter Data Utama
