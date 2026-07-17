@@ -1,35 +1,39 @@
 import streamlit as st
 import pandas as pd
 
-st.title("Aplikasi Jadwal Guru")
+st.title("Sistem Informasi Jadwal Guru")
 
-# Pastikan nama file sesuai dengan yang Anda unggah
-file_name = 'Jadwal_Guru.xlsx' 
+# Membaca data
+@st.cache_data
+def load_data():
+    return pd.read_excel('Jadwal_Guru.xlsx')
 
-try:
-    # Membaca file excel
-    data = pd.read_excel(file_name)
-    
-    # Menampilkan daftar kolom yang terdeteksi agar Anda bisa memastikannya
-    st.write("### Daftar Kolom yang Ditemukan di File:")
-    st.write(data.columns.tolist())
-    
-    # Membersihkan nama kolom (menghapus spasi di depan/belakang)
-    data.columns = data.columns.str.strip()
-    
-    # Masukkan nama kolom yang Anda inginkan di sini
-    # Sesuaikan dengan hasil daftar kolom di atas jika berbeda
-    kolom_yang_dipakai = ['Jam', 'Mapel', 'Kelas']
-    
-    # Pengecekan apakah kolom tersebut ada
-    if all(col in data.columns for col in kolom_yang_dipakai):
-        st.subheader("Jadwal Guru")
-        st.table(data[kolom_yang_dipakai])
-    else:
-        st.warning("Beberapa kolom yang dicari tidak ditemukan. Silakan sesuaikan nama kolom di kode dengan daftar kolom di atas.")
-        st.table(data) # Menampilkan semua data agar Anda bisa melihat strukturnya
+df = load_data()
 
-except FileNotFoundError:
-    st.error(f"File '{file_name}' tidak ditemukan. Pastikan file tersebut sudah diunggah ke folder yang sama dengan app.py.")
-except Exception as e:
-    st.error(f"Terjadi kesalahan: {e}")
+# Sidebar untuk filter
+st.sidebar.header("Pilih Filter")
+
+# Dropdown untuk Mapel
+list_mapel = sorted(df['Mapel'].unique())
+pilihan_mapel = st.sidebar.selectbox("Pilih Mata Pelajaran:", list_mapel)
+
+# Dropdown untuk Kode berdasarkan Mapel yang dipilih
+df_filter_mapel = df[df['Mapel'] == pilihan_mapel]
+list_kode = sorted(df_filter_mapel['Kode_Mapel'].unique())
+pilihan_kode = st.sidebar.selectbox("Pilih Kode:", list_kode)
+
+# Filter Data Utama
+hasil = df[(df['Mapel'] == pilihan_mapel) & (df['Kode_Mapel'] == pilihan_kode)]
+
+# Menampilkan Jadwal berdasarkan hari
+st.subheader(f"Jadwal untuk {pilihan_mapel} ({pilihan_kode})")
+
+if not hasil.empty:
+    # Mengurutkan berdasarkan hari (opsional: agar Senin-Sabtu berurutan)
+    urutan_hari = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']
+    hasil['Hari'] = pd.Categorical(hasil['Hari'], categories=urutan_hari, ordered=True)
+    hasil = hasil.sort_values('Hari')
+    
+    st.table(hasil[['Hari', 'Jam', 'Kelas']])
+else:
+    st.info("Tidak ada jadwal untuk kombinasi tersebut.")
