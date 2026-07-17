@@ -1,23 +1,35 @@
 import streamlit as st
 import pandas as pd
 
-# Load data
-df = pd.read_excel("Jadwal_Guru.xlsx")
+st.title("Aplikasi Jadwal Guru")
 
-st.title("Sistem Informasi Jadwal Guru")
+# Pastikan nama file sesuai dengan yang Anda unggah
+file_name = 'Jadwal_Guru_2.xlsx' 
 
-# Dropdown Nama Guru
-# Ubah bagian ini di baris 10 dan 14
-mapel_pilihan = st.selectbox("Pilih Mapel:", df['Mapel'].unique())
-
-# Filter data berdasarkan Mapel yang dipilih
-jadwal_guru = df[df['Mapel'] == mapel_pilihan]
-# Menampilkan jadwal Senin-Sabtu
-hari = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"]
-for h in hari:
-    st.subheader(h)
-    data_hari = jadwal_guru[jadwal_guru['Hari'] == h]
-    if not data_hari.empty:
-        st.table(data_hari[['Jam', 'Mapel', 'Kelas']])
+try:
+    # Membaca file excel
+    data = pd.read_excel(file_name)
+    
+    # Menampilkan daftar kolom yang terdeteksi agar Anda bisa memastikannya
+    st.write("### Daftar Kolom yang Ditemukan di File:")
+    st.write(data.columns.tolist())
+    
+    # Membersihkan nama kolom (menghapus spasi di depan/belakang)
+    data.columns = data.columns.str.strip()
+    
+    # Masukkan nama kolom yang Anda inginkan di sini
+    # Sesuaikan dengan hasil daftar kolom di atas jika berbeda
+    kolom_yang_dipakai = ['Jam', 'Mapel', 'Kelas']
+    
+    # Pengecekan apakah kolom tersebut ada
+    if all(col in data.columns for col in kolom_yang_dipakai):
+        st.subheader("Jadwal Guru")
+        st.table(data[kolom_yang_dipakai])
     else:
-        st.write("Tidak ada jadwal.")
+        st.warning("Beberapa kolom yang dicari tidak ditemukan. Silakan sesuaikan nama kolom di kode dengan daftar kolom di atas.")
+        st.table(data) # Menampilkan semua data agar Anda bisa melihat strukturnya
+
+except FileNotFoundError:
+    st.error(f"File '{file_name}' tidak ditemukan. Pastikan file tersebut sudah diunggah ke folder yang sama dengan app.py.")
+except Exception as e:
+    st.error(f"Terjadi kesalahan: {e}")
