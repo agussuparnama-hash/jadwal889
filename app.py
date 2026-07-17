@@ -5,17 +5,28 @@ from io import BytesIO
 
 # --- 1. Fungsi untuk konversi tabel ke gambar ---
 def df_to_image(df):
-    fig, ax = plt.subplots(figsize=(8, 4)) # Sesuaikan ukuran jika perlu
+    # 1. Menambah ukuran kanvas (figsize) agar lebih lega
+    fig, ax = plt.subplots(figsize=(10, 5)) 
     ax.axis('off')
-    # Menggambar tabel
-    table = ax.table(cellText=df.values, colLabels=df.columns, loc='center', cellLoc='center')
-    table.auto_set_font_size(False)
-    table.set_fontsize(10)
-    table.scale(1, 1.5) # Memberi ruang antar baris
-    plt.tight_layout()
     
+    # 2. Membuat tabel dengan lokasi center
+    table = ax.table(cellText=df.values, colLabels=df.columns, loc='center', cellLoc='center')
+    
+    # 3. Mengatur font dan ukuran
+    table.auto_set_font_size(False)
+    table.set_fontsize(12)
+    
+    # 4. Memberi padding pada setiap sel (lebar dan tinggi)
+    for (row, col), cell in table.get_celld().items():
+        cell.set_height(0.15)  # Mengatur tinggi baris
+        cell.set_width(0.18)   # Mengatur lebar kolom
+        
+    # 5. Memberi ruang di sekeliling tabel
+    plt.tight_layout(pad=3.0) 
+    
+    # 6. Menggunakan bbox_inches='tight' agar tidak terpotong
     buf = BytesIO()
-    plt.savefig(buf, format='jpg', dpi=300)
+    plt.savefig(buf, format='jpg', dpi=300, bbox_inches='tight') 
     buf.seek(0)
     return buf
 
