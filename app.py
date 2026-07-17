@@ -7,7 +7,8 @@ df = pd.read_excel("Jadwal_Guru.xlsx")
 st.title("Sistem Informasi Jadwal Guru")
 
 # Dropdown Nama Guru
-nama_guru = st.selectbox("Pilih Nama Guru:", df['Nama_Guru'].unique())
+# Contoh jika ingin memilih berdasarkan Mapel
+mapel_pilihan = st.selectbox("Pilih Mapel:", df['Mapel'].unique())
 
 # Filter data berdasarkan guru
 jadwal_guru = df[df['Nama_Guru'] == nama_guru]
