@@ -22,7 +22,7 @@ def df_to_image(df):
 # --- 2. Load Data ---
 @st.cache_data
 def load_data():
-    return pd.read_excel('Jadwal_Guru_2.xlsx')
+    return pd.read_excel('Jadwal_Guru.xlsx')
 
 df = load_data()
 df.columns = df.columns.str.strip() # Membersihkan spasi pada nama kolom
