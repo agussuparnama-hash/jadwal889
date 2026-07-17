@@ -7,12 +7,11 @@ df = pd.read_excel("Jadwal_Guru.xlsx")
 st.title("Sistem Informasi Jadwal Guru")
 
 # Dropdown Nama Guru
-# Contoh jika ingin memilih berdasarkan Mapel
+# Ubah bagian ini di baris 10 dan 14
 mapel_pilihan = st.selectbox("Pilih Mapel:", df['Mapel'].unique())
 
-# Filter data berdasarkan guru
-jadwal_guru = df[df['Nama_Guru'] == nama_guru]
-
+# Filter data berdasarkan Mapel yang dipilih
+jadwal_guru = df[df['Mapel'] == mapel_pilihan]
 # Menampilkan jadwal Senin-Sabtu
 hari = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"]
 for h in hari:
